@@ -53,46 +53,83 @@ export const signUp=async(req,resp)=>{
 
 
 
-export const signin=async(req,resp)=>{
-    try {
-        const {email,password}=req.body;
+// export const signin=async(req,resp)=>{
+//     try {
+//         const {email,password}=req.body;
 
-        const user=await User.findOne({email});
-        if(!user){
-            return resp.status(400).json({message:"Email does not exists"});
-        }
-        if(password.length<6){
-            return resp.status(400).json({message:"Password must be at least 6 characters long"});
-        }
-    const isMatch=await bcrypt.compare(password,user.password);
-    if(!isMatch){
-        return resp.status(400).json({message:"Invalid Password"});
-    }
+//         const user=await User.findOne({email});
+//         if(!user){
+//             return resp.status(400).json({message:"Email does not exists"});
+//         }
+//         if(password.length<6){
+//             return resp.status(400).json({message:"Password must be at least 6 characters long"});
+//         }
+//     const isMatch=await bcrypt.compare(password,user.password);
+//     if(!isMatch){
+//         return resp.status(400).json({message:"Invalid Password"});
+//     }
 
-        const token =await genToken(user._id);
-        // resp.cookie("token",token,{
-        //     httpOnly:true,
-        //     secure:false,
-        //     sameSite:"strict",
-        //     maxAge:7*24*60*60*1000,
-        // });
+//         const token =await genToken(user._id);
+//         // resp.cookie("token",token,{
+//         //     httpOnly:true,
+//         //     secure:false,
+//         //     sameSite:"strict",
+//         //     maxAge:7*24*60*60*1000,
+//         // });
 
 
-         const isProd = process.env.NODE_ENV === "production";
+//          const isProd = process.env.NODE_ENV === "production";
+//     resp.cookie("token", token, {
+//       httpOnly: true,
+//       secure: isProd, // prod: true | local: false
+//       sameSite: isProd ? "none" : "lax",
+//       maxAge: 7 * 24 * 60 * 60 * 1000,
+//     });
+//         // await user.save();
+//         resp.status(200).json({message:"User login successfully",user,token,});   
+
+        
+//     } catch (error) {
+//         resp.status(500).json({message:"Internal server login error",error});
+//     }
+// }
+
+
+export const signin = async (req, resp) => {
+  try {
+    console.log("Signin request body:", req.body);
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+    console.log("User found:", user);
+
+    if (!user) return resp.status(400).json({ message: "Email does not exist" });
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    console.log("Password match:", isMatch);
+
+    if (!isMatch) return resp.status(400).json({ message: "Invalid password" });
+
+    const token = await genToken(user._id);
+    console.log("JWT token:", token);
+
+    const isProd = process.env.NODE_ENV === "production";
     resp.cookie("token", token, {
       httpOnly: true,
-      secure: isProd, // prod: true | local: false
+      secure: isProd,
       sameSite: isProd ? "none" : "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
-        // await user.save();
-        resp.status(200).json({message:"User login successfully",user,token,});   
 
-        
-    } catch (error) {
-        resp.status(500).json({message:"Internal server login error",error});
-    }
-}
+    resp.status(200).json({ message: "User login successfully", user, token });
+  } catch (error) {
+    console.error("Signin error:", error);
+    resp.status(500).json({ message: "Internal server login error", error: error.message });
+  }
+};
+
+
+
+
 
 
 export const logout=async(re,resp)=>{
