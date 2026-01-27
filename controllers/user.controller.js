@@ -35,6 +35,9 @@ export const updateAssistant = async (req, resp) => {
       assistantImage = imageUrl; // for pre-built assistant images
     }
 
+
+
+    
     //  Correct mongoose method name
     const user = await User.findByIdAndUpdate(
       req.userId,

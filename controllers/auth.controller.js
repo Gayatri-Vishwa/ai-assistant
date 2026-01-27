@@ -25,12 +25,22 @@ export const signUp=async(req,resp)=>{
         });
 
         const token =await genToken(user._id);
-        resp.cookie("token",token,{
-            httpOnly:true,
-            secure:false,
-            sameSite:"strict",
-            maxAge:7*24*60*60*1000,
-        });
+        // resp.cookie("token",token,{
+        //     httpOnly:true,
+        //     secure:false,
+        //     sameSite:"strict",
+        //     maxAge:7*24*60*60*1000,
+        // });
+
+
+         const isProd = process.env.NODE_ENV === "production";
+    resp.cookie("token", token, {
+      httpOnly: true,
+      secure: isProd, // prod: true | local: false
+      sameSite: isProd ? "none" : "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
         await user.save();
         resp.status(201).json({message:"User created successfully",user,token,});   
 
@@ -60,12 +70,21 @@ export const signin=async(req,resp)=>{
     }
 
         const token =await genToken(user._id);
-        resp.cookie("token",token,{
-            httpOnly:true,
-            secure:false,
-            sameSite:"strict",
-            maxAge:7*24*60*60*1000,
-        });
+        // resp.cookie("token",token,{
+        //     httpOnly:true,
+        //     secure:false,
+        //     sameSite:"strict",
+        //     maxAge:7*24*60*60*1000,
+        // });
+
+
+         const isProd = process.env.NODE_ENV === "production";
+    resp.cookie("token", token, {
+      httpOnly: true,
+      secure: isProd, // prod: true | local: false
+      sameSite: isProd ? "none" : "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
         // await user.save();
         resp.status(200).json({message:"User login successfully",user,token,});   
 
