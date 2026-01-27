@@ -5,8 +5,8 @@ import upload from '../middleware/multer.js'
 import { clearHistory } from '../controllers/user.controller.js';
 
 const router=express.Router();
-router.get('/',(req,resp)=>{
-    resp.post("yes  server fetched")
+router.get('/test',(req,resp)=>{
+    resp.send("yes  server fetched")
 })
 router.get('/current', isAuth, getCurrentUser);
 router.post('/update',isAuth,upload.single("assistantImage"),updateAssistant) // upload is middleware ,img ko  req.file me dalega and will store in  public folder
