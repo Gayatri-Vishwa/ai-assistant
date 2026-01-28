@@ -42,6 +42,8 @@ export const signUp=async(req,resp)=>{
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
+
+    
         // await user.save();
         resp.status(201).json({message:"User created successfully",user,token,});   
 

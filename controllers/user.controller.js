@@ -23,6 +23,7 @@ export const getCurrentUser = async (req, resp) => {
 
 
 
+
 export const updateAssistant = async (req, resp) => {
   try {
     const { assistantName, imageUrl } = req.body; // imgUrl is for prebuilt cards
