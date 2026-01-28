@@ -140,7 +140,7 @@ export const signin = async (req, resp) => {
 
 
 
-export const logout=async(re,resp)=>{
+export const logout=async(req,resp)=>{
     try {
         resp.clearCookie("token");
         resp.status(200).json({message:"User logged out successfully"});

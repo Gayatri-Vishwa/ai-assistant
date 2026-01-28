@@ -3,8 +3,8 @@ import axios from "axios";
 
 const geminiResponse = async (command, userName, assistantName) => {
   try {
-    // const apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
-    const apiUrl= process.env.GEMINI_API_URL;
+    const apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
+    // const apiUrl= process.env.GEMINI_API_URL;
     const apiKey = process.env.GEMINI_API_KEY;
     const prompt = `You are a virtual assistant named ${assistantName} created by ${userName}.
        You are not Google . you will now behave like a voice-enabled assistant .
