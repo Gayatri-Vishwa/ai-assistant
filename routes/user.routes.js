@@ -9,7 +9,7 @@ router.get('/test',(req,resp)=>{
     resp.send("yes  server fetched")
 })
 router.get('/current', getCurrentUser);
-router.post('/update',upload.single("assistantImage"),updateAssistant) // upload is middleware ,img ko  req.file me dalega and will store in  public folder
+router.put('/update',upload.single("assistantImage"),updateAssistant) // upload is middleware ,img ko  req.file me dalega and will store in  public folder
 router.post('/asktoassistant', askToAssistant);
 router.delete("/clear-history", clearHistory);
 
