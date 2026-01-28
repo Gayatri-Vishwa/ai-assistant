@@ -9,6 +9,7 @@ const genToken = async(userId)=>{
         return token;   
     } catch (error) {
         console.log("Error generating token:",error);
+         throw error;
     }
 }
 export default genToken;

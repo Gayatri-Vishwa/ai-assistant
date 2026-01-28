@@ -34,7 +34,7 @@ async function connectDb() {
     }
 }
 
-
+await connectDb(); // 🔥 FIRST
 
 // middleware
 /* ✅ CORS FIRST */
@@ -63,10 +63,10 @@ app.get('/',async(req,resp)=>{
    resp.json(data)
 })
 
-app.use(async (req, res, next) => {
-  if (!isConnected) await connectDb();
-  next();
-});
+// app.use(async (req, res, next) => {
+//   if (!isConnected) await connectDb();
+//   next();
+// });
 
 
 // app.listen(PORT,()=>{
