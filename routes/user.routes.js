@@ -15,7 +15,7 @@ router.get('/test',(req,resp)=>{
 
 
 router.get('/current', isAuth, getCurrentUser);
-router.post('/update',isAuth,upload.single("assistantImage"),updateAssistant) // upload is middleware ,img ko  req.file me dalega and will store in  public folder
+router.put('/update',isAuth,upload.single("assistantImage"),updateAssistant) // upload is middleware ,img ko  req.file me dalega and will store in  public folder
 router.post('/asktoassistant', isAuth, askToAssistant);
 router.delete("/clear-history", isAuth, clearHistory);
 
