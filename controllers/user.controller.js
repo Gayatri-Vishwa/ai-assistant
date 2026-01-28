@@ -35,6 +35,11 @@ export const updateAssistant = async (req, resp) => {
       assistantImage = imageUrl; // for pre-built assistant images
     }
 
+    const updatedData = {
+  assistantName,
+  assistantImage
+};
+
 
 
     
