@@ -3,17 +3,30 @@ import jwt from 'jsonwebtoken';
 const isAuth=async(req,resp,next)=>{
 try {
     
-    const token=req.cookies.token;
     // const token=req.cookies.token;
-    if(!token){
-        return resp.status(401).json({message:"Unauthorized"});
-    }
+    // // const token=req.cookies.token;
+    // if(!token){
+    //     return resp.status(401).json({message:"Unauthorized"});
+    // }
+    // const decoded=  jwt.verify(token,process.env.JWT_SECRET);
+    // req.userId = decoded.id;
+    // next();
 
-    const decoded=  jwt.verify(token,process.env.JWT_SECRET);
-    
-    req.userId = decoded.id;
 
-    next();
+
+    const authHeader = req.headers.authorization;
+if (!authHeader || !authHeader.startsWith("Bearer ")) {
+  return res.status(401).json({ message: "Unauthorized" });
+}
+const token = authHeader.split(" ")[1];
+const decoded = jwt.verify(token, process.env.JWT_SECRET);
+req.userId = decoded.id;
+next();
+
+
+
+
+
 } catch (error) {
     console.error("Authentication error:", error);
     console.log("Cookies:", req.cookies);
