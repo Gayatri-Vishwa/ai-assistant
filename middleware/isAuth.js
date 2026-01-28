@@ -3,7 +3,9 @@ import jwt from 'jsonwebtoken';
 const isAuth=async(req,resp,next)=>{
 try {
     
-    // const token=req.cookies.token;
+    const token=req.cookies.token;
+
+
     // // const token=req.cookies.token;
     // if(!token){
     //     return resp.status(401).json({message:"Unauthorized"});
@@ -13,17 +15,35 @@ try {
     // req.userId = decoded.userId;
     // next();
 
+    // ================================
+    // 1️⃣ Cookie token
+    if (req.cookies?.token) {
+      token = req.cookies.token;
+    }
 
+    // 2️⃣ Header token
+    if (!token && req.headers.authorization?.startsWith("Bearer ")) {
+      token = req.headers.authorization.split(" ")[1];
+    }
+   if (!token) {
+      return resp.status(401).json({ message: "Unauthorized" });
+    }
 
-    const authHeader = req.headers.authorization;
-if (!authHeader || !authHeader.startsWith("Bearer ")) {
-  return resp.status(401).json({ message: "Unauthorized" });
-}
-const token = authHeader.split(" ")[1];
-const decoded = jwt.verify(token, process.env.JWT_SECRET);
-// req.userId = decoded.id;
-req.userId = decoded.userId;
-next();
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.userId = decoded.userId;
+
+    next();
+// ==================================================
+
+//     const authHeader = req.headers.authorization;
+// if (!authHeader || !authHeader.startsWith("Bearer ")) {
+//   return resp.status(401).json({ message: "Unauthorized" });
+// }
+// const token = authHeader.split(" ")[1];
+// const decoded = jwt.verify(token, process.env.JWT_SECRET);
+// // req.userId = decoded.id;
+// req.userId = decoded.userId;
+// next();
 
 
 
