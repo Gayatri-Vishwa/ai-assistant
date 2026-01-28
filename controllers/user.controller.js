@@ -39,11 +39,17 @@ export const updateAssistant = async (req, resp) => {
 
     
     //  Correct mongoose method name
+    // const user = await User.findByIdAndUpdate(
+    //   req.userId,
+    //   { assistantImage, assistantName },
+    //   { new: true }
+    // ).select("-password");
+
     const user = await User.findByIdAndUpdate(
-      req.userId,
-      { assistantImage, assistantName },
-      { new: true }
-    ).select("-password");
+  req.userId,
+  updatedData,
+  { new: true, runValidators: true } // runValidators important
+).select("-password");
 
     if (!user) {
       return resp.status(404).json({ message: "User not found" });
