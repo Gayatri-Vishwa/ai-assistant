@@ -30,7 +30,7 @@ export const updateAssistant = async (req, resp) => {
 
     // ✅ If a file was uploaded, send it to Cloudinary
     if (req.file) {
-      assistantImage = await uploadOnCloudinary(req.file.path);
+      assistantImage = await uploadOnCloudinary(req.file.buffer);
     } else {
       assistantImage = imageUrl; // for pre-built assistant images
     }

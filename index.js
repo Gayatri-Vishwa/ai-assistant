@@ -34,7 +34,13 @@ async function connectDb() {
     }
 }
 
-await connectDb(); // 🔥 FIRST
+// await connectDb(); // 🔥 FIRST
+app.use(async (req, res, next) => {
+  if (!isConnected) await connectDb();
+  next();
+});
+
+
 
 // middleware
 /* ✅ CORS FIRST */
@@ -62,11 +68,6 @@ app.get('/',async(req,resp)=>{
    let data=await  geminiResponse(prompt)
    resp.json(data)
 })
-
-// app.use(async (req, res, next) => {
-//   if (!isConnected) await connectDb();
-//   next();
-// });
 
 
 // app.listen(PORT,()=>{
