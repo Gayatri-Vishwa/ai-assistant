@@ -13,9 +13,12 @@ router.get('/test',(req,resp)=>{
 // router.post('/asktoassistant', askToAssistant);
 // router.delete("/clear-history", clearHistory);
 
+router.put('/update', (req,res)=>{
+  res.json({ ok:true })
+})
 
 router.get('/current', isAuth, getCurrentUser);
-router.put('/update',isAuth,upload.single("assistantImage"),updateAssistant) // upload is middleware ,img ko  req.file me dalega and will store in  public folder
+// router.put('/update',isAuth,upload.single("assistantImage"),updateAssistant) // upload is middleware ,img ko  req.file me dalega and will store in  public folder
 router.post('/asktoassistant', isAuth, askToAssistant);
 router.delete("/clear-history", isAuth, clearHistory);
 
