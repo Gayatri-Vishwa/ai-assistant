@@ -4,6 +4,8 @@ const isAuth=async(req,resp,next)=>{
 try {
     
     const token=req.cookies.token;
+    console.log("AUTH COOKIES:", req.cookies);
+
 
 
     // const token=req.cookies.token;
