@@ -8,16 +8,16 @@ const router=express.Router();
 router.get('/test',(req,resp)=>{
     resp.send("yes  server fetched")
 })
-router.get('/current', getCurrentUser);
-router.put('/update',upload.single("assistantImage"),updateAssistant) // upload is middleware ,img ko  req.file me dalega and will store in  public folder
-router.post('/asktoassistant', askToAssistant);
-router.delete("/clear-history", clearHistory);
+// router.get('/current', getCurrentUser);
+// router.put('/update',upload.single("assistantImage"),updateAssistant) // upload is middleware ,img ko  req.file me dalega and will store in  public folder
+// router.post('/asktoassistant', askToAssistant);
+// router.delete("/clear-history", clearHistory);
 
 
-// router.get('/current', isAuth, getCurrentUser);
-// router.post('/update',isAuth,upload.single("assistantImage"),updateAssistant) // upload is middleware ,img ko  req.file me dalega and will store in  public folder
-// router.post('/asktoassistant', isAuth, askToAssistant);
-// router.delete("/clear-history", isAuth, clearHistory);
+router.get('/current', isAuth, getCurrentUser);
+router.post('/update',isAuth,upload.single("assistantImage"),updateAssistant) // upload is middleware ,img ko  req.file me dalega and will store in  public folder
+router.post('/asktoassistant', isAuth, askToAssistant);
+router.delete("/clear-history", isAuth, clearHistory);
 
 
 export default router;
