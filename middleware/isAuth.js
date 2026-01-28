@@ -16,6 +16,10 @@ try {
     next();
 } catch (error) {
     console.error("Authentication error:", error);
+    console.log("Cookies:", req.cookies);
+console.log("Decoded token:", decoded);
+console.log("req.userId:", req.userId);
+
     return resp.status(500).json({message:"Unauthorized"});
 }
 
