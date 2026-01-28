@@ -24,6 +24,7 @@ export const signUp=async(req,resp)=>{
             password:hashedPassword,
         });
 
+           await user.save();
         const token =await genToken(user._id);
         // resp.cookie("token",token,{
         //     httpOnly:true,
@@ -41,7 +42,7 @@ export const signUp=async(req,resp)=>{
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-        await user.save();
+        // await user.save();
         resp.status(201).json({message:"User created successfully",user,token,});   
 
         
@@ -109,6 +110,8 @@ export const signin = async (req, resp) => {
 
     if (!isMatch) return resp.status(400).json({ message: "Invalid password" });
 
+
+    
     const token = await genToken(user._id);
     console.log("JWT token:", token);
 
@@ -122,9 +125,14 @@ export const signin = async (req, resp) => {
 
     resp.status(200).json({ message: "User login successfully", user, token });
   } catch (error) {
-    console.error("Signin error:", error);
-    resp.status(500).json({ message: "Internal server login error", error: error.message });
-  }
+  console.error("SIGNIN ERROR FULL:", error);
+  resp.status(500).json({
+    message: "Internal server login error",
+    stack: error.stack,
+    error: error.message,
+  });
+}
+
 };
 
 
