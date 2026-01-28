@@ -44,19 +44,27 @@ app.use(async (req, res, next) => {
 
 // middleware
 /* ✅ CORS FIRST */
+// app.use(
+//   cors({
+//     origin: [
+//         "http://localhost:5178", // ✅ ADD THIS
+//       "http://localhost:5173",
+//       "http://localhost:5174",
+//       "http://localhost:5175",
+//       "http://localhost:5176",
+//       process.env.CLIENT_URL,
+//     ],
+//     credentials: true,
+//   })
+// );
+
 app.use(
   cors({
-    origin: [
-        "http://localhost:5178", // ✅ ADD THIS
-      "http://localhost:5173",
-      "http://localhost:5174",
-      "http://localhost:5175",
-      "http://localhost:5176",
-      process.env.CLIENT_URL,
-    ],
-    credentials: true,
+    origin: true,      // 🔥 allow exact requesting origin
+    credentials: true, // 🔥 allow cookies
   })
 );
+
     
 app.use(express.json());
 app.use(cookieParser())

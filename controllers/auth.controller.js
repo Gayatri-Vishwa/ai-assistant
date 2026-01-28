@@ -26,19 +26,15 @@ export const signUp=async(req,resp)=>{
 
            await user.save();
         const token =await genToken(user._id);
-        // resp.cookie("token",token,{
-        //     httpOnly:true,
-        //     secure:false,
-        //     sameSite:"strict",
-        //     maxAge:7*24*60*60*1000,
-        // });
-
+     
 
          const isProd = process.env.NODE_ENV === "production";
     resp.cookie("token", token, {
       httpOnly: true,
-      secure: isProd, // prod: true | local: false
-      sameSite: isProd ? "none" : "lax",
+    //   secure: isProd, // prod: true | local: false
+    //   sameSite: isProd ? "none" : "lax",
+       secure: true,
+      sameSite: "none" ,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
@@ -120,8 +116,11 @@ export const signin = async (req, resp) => {
     const isProd = process.env.NODE_ENV === "production";
     resp.cookie("token", token, {
       httpOnly: true,
-      secure: isProd,
-      sameSite: isProd ? "none" : "lax",
+    //   secure: isProd,
+    //   sameSite: isProd ? "none" : "lax",
+     secure: true,
+      sameSite: "none" ,
+
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
