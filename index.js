@@ -72,11 +72,6 @@ app.get('/',async(req,resp)=>{
 })
 
 
-// app.listen(PORT,()=>{
-//     connectDb();
-//     console.log(`Server is running on http://localhost:${PORT}`);
-// });
-
 
 
 // do not use app.listen in vercel
