@@ -71,7 +71,8 @@ export const updateAssistant = async (req, resp) => {
 };
 
 //gemini ask to assistant controller ================================================================================================
-////mine///
+
+
 export const askToAssistant = async (req, resp) => {
   try {
     const { command } = req.body;
