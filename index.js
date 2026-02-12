@@ -1,4 +1,5 @@
-
+import dotenv from 'dotenv';
+dotenv.config(); 
 
 import express from 'express';
 // import connectDb from './config/db.js';
@@ -6,13 +7,17 @@ import authRouter from './routes/auth.routes.js';
 import mongoose from "mongoose";
 import cookieParser from 'cookie-parser';
 import userRouter from './routes/user.routes.js';
-import dotenv from 'dotenv';
+
 import cors from 'cors';
 import geminiResponse from './gemini.js';
-dotenv.config();    
+
+   
 const app=express();
 
 const PORT=process.env.PORT || 3000;
+
+//new
+app.set("trust proxy", 1);
 
 
 
@@ -34,29 +39,43 @@ async function connectDb() {
     }
 }
 
-// await connectDb(); // 🔥 FIRST
-app.use(async (req, res, next) => {
-  if (!isConnected) await connectDb();
-  next();
+
+
+app.listen(PORT, async () => {
+  try {
+    await connectDb();
+    console.log("MongoDB connected");
+    console.log(`Server running on port ${PORT}`);
+  } catch (err) {
+    console.log(err);
+  }
 });
+
 
 
 
 // middleware
 /* ✅ CORS FIRST */
-app.use(
-  cors({
-    origin: [
-        "http://localhost:5178", // ✅ ADD THIS
-      "http://localhost:5173",
-      "http://localhost:5174",
-      "http://localhost:5175",
-      "http://localhost:5176",
-      process.env.CLIENT_URL,
-    ],
+// app.use(
+//   cors({
+//     origin: [
+//         "http://localhost:5178", // ✅ ADD THIS
+//       "http://localhost:5173",
+//       "http://localhost:5174",
+//       "http://localhost:5175",
+//       "http://localhost:5176",
+//       process.env.CLIENT_URL,
+//     ],
+//     credentials: true,
+//   })
+// );
+
+app.use(cors({
+    origin: process.env.CLIENT_URL,
     credentials: true,
-  })
-);
+    methods: ["GET","POST","PUT","DELETE"],
+    allowedHeaders: ["Content-Type","Authorization"]
+}));
 
 
     

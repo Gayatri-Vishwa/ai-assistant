@@ -124,6 +124,8 @@ export const signin = async (req, resp) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
+    
+
     resp.status(200).json({ message: "User login successfully", user, token });
   } catch (error) {
   console.error("SIGNIN ERROR FULL:", error);
