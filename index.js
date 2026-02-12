@@ -47,12 +47,11 @@ app.use(async (req, res, next) => {
 app.use(
   cors({
     origin: [
-        "http://localhost:5178",
+        "http://localhost:5178", // ✅ ADD THIS
       "http://localhost:5173",
       "http://localhost:5174",
       "http://localhost:5175",
       "http://localhost:5176",
-      "https://ai-assistant-frontend-ashen.vercel.app",
       process.env.CLIENT_URL,
     ],
     credentials: true,
