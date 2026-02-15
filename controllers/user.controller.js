@@ -99,6 +99,16 @@ export const askToAssistant = async (req, resp) => {
         response: "AI limit reached. Please try again later."
       });
     }
+//     try {
+//   const data = await geminiResponse(transcript);
+// } catch (err) {
+//   if (err.response?.status === 429) {
+//     speak("Too many requests. Please wait a moment.");
+//   } else {
+//     speak("Assistant failed to respond.");
+//   }
+// }
+
 
     if (!result) {
       return resp.status(429).json({
