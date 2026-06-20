@@ -41,7 +41,15 @@ async function connectDb() {
 //     console.log(err);
 //   }
 // });
-
+app.listen(PORT, async () => {
+  try {
+    await connectDb();
+    console.log("MongoDB connected");
+    console.log(`Server running on port ${PORT}`);
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 
 // Middleware to ensure DB connection before each request
@@ -72,4 +80,4 @@ app.get("/", async (req, resp) => {
 // do not use app.listen in vercel
 
 // module.exports=app
-export default app;
+// export default app;
