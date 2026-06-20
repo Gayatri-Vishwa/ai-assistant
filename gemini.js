@@ -91,6 +91,7 @@ return candidates[0]?.content?.parts[0]?.text;
 
   } catch (error) {
     console.error("Gemini API Error:", error?.response?.data || error.message);
+    console.log(JSON.stringify(error.response?.data, null, 2));
     throw error;
   }
 };
