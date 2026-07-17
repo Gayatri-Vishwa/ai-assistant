@@ -32,15 +32,7 @@ async function connectDb() {
   }
 }
 
-// app.listen(PORT, async () => {
-//   try {
-//     await connectDb();
-//     console.log("MongoDB connected");
-//     console.log(`Server running on port ${PORT}`);
-//   } catch (err) {
-//     console.log(err);
-//   }
-// });
+
 app.listen(PORT, async () => {
   try {
     await connectDb();
@@ -58,7 +50,7 @@ app.use(async (req, res, next) => {
   next();
 });
 // middleware
-/* ✅ CORS FIRST */
+/* CORS FIRST */
 app.use(
   cors({
     origin: ["http://localhost:5178", process.env.CLIENT_URL],
@@ -77,7 +69,3 @@ app.get("/", async (req, resp) => {
   resp.json(data);
 });
 
-// do not use app.listen in vercel
-
-// module.exports=app
-// export default app;

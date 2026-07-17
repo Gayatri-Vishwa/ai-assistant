@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 
 const isAuth=async(req,resp,next)=>{
 try {
-       // Try cookies first
+       
     let token = req.cookies?.token;
     // Fallback to Authorization header (Bearer token)
     if (!token && req.headers.authorization?.startsWith("Bearer ")) {

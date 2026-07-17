@@ -21,15 +21,12 @@ export const getCurrentUser = async (req, resp) => {
   }
 };
 
-
-
-
 export const updateAssistant = async (req, resp) => {
   try {
     const { assistantName, imageUrl } = req.body; // imgUrl is for prebuilt cards
     let assistantImage;
 
-    // ✅ If a file was uploaded, send it to Cloudinary
+    // If a file was uploaded, send it to Cloudinary
     if (req.file) {
       assistantImage = await uploadOnCloudinary(req.file.buffer);
     } else {
@@ -37,25 +34,15 @@ export const updateAssistant = async (req, resp) => {
     }
 
     const updatedData = {
-  assistantName,
-  assistantImage
-};
-
-
-
-    
-    //  Correct mongoose method name
-    // const user = await User.findByIdAndUpdate(
-    //   req.userId,
-    //   { assistantImage, assistantName },
-    //   { new: true }
-    // ).select("-password");
+      assistantName,
+      assistantImage,
+    };
 
     const user = await User.findByIdAndUpdate(
-  req.userId,
-  updatedData,
-  { new: true, runValidators: true } // runValidators important
-).select("-password");
+      req.userId,
+      updatedData,
+      { new: true, runValidators: true }, // runValidators important
+    ).select("-password");
 
     if (!user) {
       return resp.status(404).json({ message: "User not found" });
@@ -70,8 +57,7 @@ export const updateAssistant = async (req, resp) => {
   }
 };
 
-//gemini ask to assistant controller ================================================================================================
-
+//gemini ask to assistant controller 
 
 export const askToAssistant = async (req, resp) => {
   try {
@@ -85,18 +71,15 @@ export const askToAssistant = async (req, resp) => {
     const assistantName = user.assistantName;
     const userName = user.name;
 
-    //  Get Gemini response (raw text)
-    // const result = await geminiResponse(command, userName, assistantName);
-    // console.log(" Gemini raw result:", result);
-   let result;
+    let result;
     try {
       result = await geminiResponse(command, userName, assistantName);
     } catch (err) {
-      console.error("🚫 Gemini API failed:", err.message);
+      console.error(" Gemini API failed:", err.message);
       return resp.status(429).json({
         type: "limit",
         userInput: command,
-        response: "AI limit reached. Please try again later."
+        response: "AI limit reached. Please try again later.",
       });
     }
 
@@ -104,24 +87,18 @@ export const askToAssistant = async (req, resp) => {
       return resp.status(429).json({
         type: "limit",
         userInput: command,
-        response: "AI limit reached. Please try again later."
+        response: "AI limit reached. Please try again later.",
       });
     }
 
-
-
-
-
     //  Try to extract and parse JSON safely
     let gemResult;
-    
+
     try {
       const jsonMatch = result.match(/{[\s\S]*}/);
       if (!jsonMatch) throw new Error("No JSON found");
       gemResult = JSON.parse(jsonMatch[0]);
-      
     } catch (err) {
-      
       console.error(" Failed to parse Gemini JSON:", err.message);
       return resp.json({
         type: "general",
@@ -132,7 +109,7 @@ export const askToAssistant = async (req, resp) => {
 
     const { type, userInput, response: gemResponse } = gemResult;
 
-    // 🕒 Handle time/date/day/month intents
+    // Handle time/date/day/month intents
     if (type === "get_date")
       return resp.json({
         type,
@@ -161,7 +138,7 @@ export const askToAssistant = async (req, resp) => {
         response: `This month is ${moment().format("MMMM")}`,
       });
 
-    // 🌐 Handle all other intents (YouTube, Instagram, etc.)
+    //  Handle all other intents (YouTube, Instagram, etc.)
     if (
       [
         "google_search",
@@ -191,15 +168,10 @@ export const askToAssistant = async (req, resp) => {
       response: "ask assistant error",
       error: error.message,
     });
-    
   }
 };
 
-
-
-
-
-// ======clear history
+// clear history
 export const clearHistory = async (req, resp) => {
   try {
     const user = await User.findById(req.userId);

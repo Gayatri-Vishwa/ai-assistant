@@ -3,8 +3,7 @@ import axios from "axios";
 
 const geminiResponse = async (command, userName, assistantName) => {
   try {
-    // const apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
-    const apiUrl= process.env.GEMINI_API_URL;
+ const apiUrl = process.env.GEMINI_API_URL;
     const apiKey = process.env.GEMINI_API_KEY;
     const prompt = `You are a virtual assistant named ${assistantName} created by ${userName}.
        You are not Google . you will now behave like a voice-enabled assistant .
@@ -65,30 +64,18 @@ Only respond with the JSON object, nothing else.
           "Content-Type": "application/json",
           "x-goog-api-key": apiKey,
         },
-      }
+      },
     );
 
     // return response?.data?.candidates[0]?.content?.parts[0]?.text;
     const candidates = response?.data?.candidates;
-if (!candidates || !candidates[0]?.content?.parts?.length) {
-  throw new Error("Invalid Gemini API response");
-}
+    if (!candidates || !candidates[0]?.content?.parts?.length) {
+      throw new Error("Invalid Gemini API response");
+    }
 
-console.log("🧠 Raw Gemini result:", response.data);
+    console.log(" Raw Gemini result:", response.data);
 
-return candidates[0]?.content?.parts[0]?.text;
-// const text =
-//   response?.data?.candidates?.[0]?.content?.parts
-//     ?.map(p => p.text)
-//     .join("");
-
-// if (!text) {
-//   throw new Error("Gemini returned empty text");
-// }
-
-// return text;
-
-
+    return candidates[0]?.content?.parts[0]?.text;
   } catch (error) {
     console.error("Gemini API Error:", error?.response?.data || error.message);
     console.log(JSON.stringify(error.response?.data, null, 2));
@@ -96,6 +83,3 @@ return candidates[0]?.content?.parts[0]?.text;
   }
 };
 export default geminiResponse;
-
-
-

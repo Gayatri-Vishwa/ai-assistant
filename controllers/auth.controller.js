@@ -33,8 +33,7 @@ export const signUp = async (req, resp) => {
       secure: true,
       sameSite: "none",
       maxAge: 7 * 24 * 60 * 60 * 1000,
-      //   secure: isProd, // prod: true | local: false
-      //   sameSite: isProd ? "none" : "lax",
+     
     });
 
     // await user.save();
